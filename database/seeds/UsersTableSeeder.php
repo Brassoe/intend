@@ -14,11 +14,11 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
 		DB::table('users')->insert([
-			'id' => '123',
-			'name' => Str::random(10),
-			'email' => Str::random(10).'@gmail.com',
-			'address' => Str::random(10).' Street '.Str::random(3),
-			'profile_img' => 'images/'.Str::random(10).'.jpg'
+			'id' => 'eN3cHVbcsuS7IbSda41Xm54cH4y1',
+			'name' => 'Test',
+			'email' => 'test@test.dk',
+			'address' => 'Testgade 10, Testby',
+			'profile_img' => 'https://drawcentral.com/wp-content/uploads/2012/01/gir_invader_zim-150x150.jpg'
 		]);
     }
 }

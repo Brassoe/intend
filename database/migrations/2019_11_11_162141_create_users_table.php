@@ -18,7 +18,7 @@ class CreateUsersTable extends Migration
 			$table->string('name', 30);
 			$table->string('email', 128);
 			$table->string('address', 256);
-			$table->string('profile_img', 128);
+			$table->string('profile_img', 256);
 
 			$table->primary('id');
         });

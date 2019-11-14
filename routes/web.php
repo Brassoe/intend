@@ -27,8 +27,20 @@ $router->get('/db', function () use ($router) {
     return app('db')->table('migrations')->get();
 });
 
+$router->get('/catalog', function () use ($router) {
+	$ids = DB::table('modules_users')->where('fk_user', '=', $_GET['uid'])->pluck('fk_module');
+	$result = DB::table('modules')->whereNotIn('id', $ids->all())->get();
+	foreach($result as &$item) {
+		$item->images = [
+			"https:/placebeard.it/256/256/notag?random=".Str::random(3),
+			"https:/placebeard.it/256/256/notag?random=".Str::random(3)
+		];
+	}
+	return $result;
+});
+
 $router->get('/modules', function () use ($router) {
-	$result = DB::table('modules')->get();
+	$result = DB::table('modules')->join('modules_users', 'modules.id', '=', 'modules_users.fk_module')->where('modules_users.fk_user', '=', $_GET['uid'])->get();
 	foreach($result as &$item) {
 		$item->images = [
 			"https:/placebeard.it/256/256/notag?random=".Str::random(3),
@@ -53,11 +65,5 @@ $router->get('/modules/{id}', function ($id) use ($router) {
 });
 
 $router->get('/users/{id}', function ($id) use ($router) {
-	$result = DB::table('users')->find($id);
-
-	if(!empty($result)) {
-		$result->profile_img = "https://placebeard.it/256/256/notag?random=".Str::random(3);
-	}
-
-	return new JsonResponse($result);
+	return new JsonResponse(DB::table('users')->find($id));
 });

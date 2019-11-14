@@ -15,7 +15,15 @@ class ModulesUsersTableSeeder extends Seeder
     {
 		DB::table('modules_users')->insert([
 			'fk_module' => 1,
-			'fk_user' => '123'
+			'fk_user' => 'eN3cHVbcsuS7IbSda41Xm54cH4y1'
+		]);
+		DB::table('modules_users')->insert([
+			'fk_module' => 2,
+			'fk_user' => 'eN3cHVbcsuS7IbSda41Xm54cH4y1'
+		]);
+		DB::table('modules_users')->insert([
+			'fk_module' => 3,
+			'fk_user' => 'eN3cHVbcsuS7IbSda41Xm54cH4y1'
 		]);
     }
 }

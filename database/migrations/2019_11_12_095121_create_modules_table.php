@@ -16,8 +16,10 @@ class CreateModulesTable extends Migration
         Schema::create('modules', function (Blueprint $table) {
             $table->bigIncrements('id');
 			$table->string('name', 64);
+			$table->string('display_name', 64);
 			$table->string('description', 256);
 			$table->integer('price');
+			$table->string('icon', 128);
         });
     }
 

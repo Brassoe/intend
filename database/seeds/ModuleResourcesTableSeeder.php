@@ -4,7 +4,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
-class ModuleFilesTableSeeder extends Seeder
+class ModuleResourcesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,9 +13,10 @@ class ModuleFilesTableSeeder extends Seeder
      */
     public function run()
     {
-		DB::table('module_files')->insert([
-			'path' => 'Http/Controllers/ShoppingListController.php',
-			'fk_module' => 1
-		]);
+		//DB::table('module_resources')->insert([
+		//	'path' => '123',
+		//	'type' => 'screenshot',
+		//	'fk_module' => 1
+		//]);
     }
 }

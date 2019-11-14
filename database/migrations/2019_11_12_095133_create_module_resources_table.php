@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateModuleFilesTable extends Migration
+class CreateModuleResourcesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class CreateModuleFilesTable extends Migration
      */
     public function up()
     {
-        Schema::create('module_files', function (Blueprint $table) {
+        Schema::create('module_resources', function (Blueprint $table) {
             $table->bigIncrements('id');
 			$table->string('path', 256);
+			$table->enum('type', ['file', 'screenshot']);
 			$table->bigInteger('fk_module', false, true);
 
 			$table->foreign('fk_module')->references('id')->on('modules')->onDelete('cascade');
@@ -29,6 +30,6 @@ class CreateModuleFilesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('module_files');
+        Schema::dropIfExists('module_resources');
     }
 }
