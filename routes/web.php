@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\JsonResponse;
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -17,4 +20,18 @@ $router->get('/', function () use ($router) {
 
 $router->get('/hello', function () use ($router) {
     return 'hello world';
+});
+
+$router->get('/db', function () use ($router) {
+    return app('db')->table('migrations')->get();
+});
+
+$router->get('/modules/{id}', function ($id) use ($router) {
+	$result = DB::table('modules')->find($id);
+	return new JsonResponse($result);
+});
+
+$router->get('/users/{id}', function ($id) use ($router) {
+	$result = DB::table('users')->find($id);
+	return new JsonResponse($result);
 });

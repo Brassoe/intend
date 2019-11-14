@@ -17,6 +17,7 @@ class CreateModulesTable extends Migration
             $table->bigIncrements('id');
 			$table->string('name', 64);
 			$table->string('description', 256);
+			$table->integer('price');
         });
     }
 
