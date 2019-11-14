@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,12 +27,37 @@ $router->get('/db', function () use ($router) {
     return app('db')->table('migrations')->get();
 });
 
+$router->get('/modules', function () use ($router) {
+	$result = DB::table('modules')->get();
+	foreach($result as &$item) {
+		$item->images = [
+			"https:/placebeard.it/256/256/notag?random=".Str::random(3),
+			"https:/placebeard.it/256/256/notag?random=".Str::random(3)
+		];
+	}
+	return $result;
+});
+
 $router->get('/modules/{id}', function ($id) use ($router) {
 	$result = DB::table('modules')->find($id);
+
+	if(!empty($result)) {
+		$result->images = [
+			//"https://unsplash.it/256/256?random",
+			"https:/placebeard.it/256/256/notag?random=".Str::random(3),
+			"https:/placebeard.it/256/256/notag?random=".Str::random(3)
+		];
+	}
+
 	return new JsonResponse($result);
 });
 
 $router->get('/users/{id}', function ($id) use ($router) {
 	$result = DB::table('users')->find($id);
+
+	if(!empty($result)) {
+		$result->profile_img = "https://placebeard.it/256/256/notag?random=".Str::random(3);
+	}
+
 	return new JsonResponse($result);
 });
