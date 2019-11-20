@@ -57,7 +57,7 @@ $router->get('/catalog/install/{slug}', function ($slug) use ($router) {
 		$result = false;
 	}
 
-	return new JsonResponse($result, $result ? 200 : 404);
+	return new JsonResponse($module, $result ? 200 : 404);
 });
 
 $router->get('/module/{slug}/{action}', function ($slug, $action) use ($router) {
@@ -87,7 +87,11 @@ $router->post('/user/create', function (Request $request) use ($router) {
 	$data = $request->json()->all();
 	$data['id'] = $data['uid'];
 	unset($data['uid']);
-	$result = DB::table('users')->insert($data);
+	try {
+		$result = !!DB::table('users')->insert($data);
+	} catch (PDOException $e) {
+		$result = false;
+	}
 	return new JsonResponse($result, $result ? 200 : 404);
 });
 
