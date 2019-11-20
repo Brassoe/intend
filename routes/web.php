@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Str;
+use Laravel\Lumen\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -76,14 +77,18 @@ $router->delete('/modules/delete/{slug}', function ($slug) use ($router) {
 	return new JsonResponse($result, $result ? 200 : 404);
 });
 
-$router->post('/user/create', function () use ($router) {
+$router->post('/user/create', function (Request $request) use ($router) {
 	// TODO: validate and create the user (this should probably be a POST request)
 	// Required fields:
 	//	id
 	//	name
 	//	email
 	//	address
-	//	profile_img (TODO: this probably shouldn't be required)
+	$data = $request->json()->all();
+	$data['id'] = $data['uid'];
+	unset($data['uid']);
+	$result = DB::table('users')->insert($data);
+	return new JsonResponse($result, $result ? 200 : 404);
 });
 
 $router->delete('/user/delete', function () use ($router) {
