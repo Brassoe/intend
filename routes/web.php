@@ -48,6 +48,11 @@ $router->get('/catalog/install/{slug}', function ($slug) use ($router) {
 		return new JsonResponse(false, 404);
 	}
 
+	$module->images = [
+		"https:/placebeard.it/256/256/notag?random=".Str::random(3),
+		"https:/placebeard.it/256/256/notag?random=".Str::random(3)
+	];
+
 	try {
 		$result = DB::table('modules_users')->insert([
 			'fk_module' => $module->id,
@@ -79,11 +84,6 @@ $router->delete('/modules/delete/{slug}', function ($slug) use ($router) {
 
 $router->post('/user/create', function (Request $request) use ($router) {
 	// TODO: validate and create the user (this should probably be a POST request)
-	// Required fields:
-	//	id
-	//	name
-	//	email
-	//	address
 	$data = $request->json()->all();
 	$data['id'] = $data['uid'];
 	unset($data['uid']);
@@ -95,15 +95,15 @@ $router->post('/user/create', function (Request $request) use ($router) {
 	return new JsonResponse($result, $result ? 200 : 404);
 });
 
-$router->delete('/user/delete', function () use ($router) {
-	// TODO: delete the user (none of this new-fangled CRU, we go full CRUD)
+$router->delete('/user', function () use ($router) {
+	// TODO: delete the user (none of this new-fangled CRU, we go full CRUD, son)
 	// TODO: check that this actually works
 	$result = DB::table('users')->delete($_SERVER['HTTP_UID']) > 0;
 
 	return new JsonResponse($result, $result ? 200 : 404);
 });
 
-$router->put('/user/update', function () use ($router) {
+$router->put('/user', function () use ($router) {
 	// TODO: update the user (this should probably be a PUT request)
 });
 
