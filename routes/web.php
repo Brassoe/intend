@@ -3,7 +3,11 @@
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Str;
-use Laravel\Lumen\Http\Request;
+use Request;
+//use Laravel\Lumen\Http\Request;
+
+use App\Model\User;
+use App\Model\Module;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +23,10 @@ use Laravel\Lumen\Http\Request;
 // default route
 $router->get('/', function () use ($router) {
     return $router->app->version();
+});
+
+$router->get('/test', function (Request $request) use ($router) {
+	var_dump($request->header('uid'));
 });
 
 // catalog (excluding modules already installed by user)
@@ -48,6 +56,7 @@ $router->get('/catalog/install/{slug}', function ($slug) use ($router) {
 		return new JsonResponse(false, 404);
 	}
 
+	// add dummy images for test purposes - TODO: remove
 	$module->images = [
 		"https:/placebeard.it/256/256/notag?random=".Str::random(3),
 		"https:/placebeard.it/256/256/notag?random=".Str::random(3)
