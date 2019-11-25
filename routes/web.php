@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Str;
-use Request;
 //use Laravel\Lumen\Http\Request;
 
 use App\Model\User;
@@ -25,9 +24,13 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->get('/test', function (Request $request) use ($router) {
-	var_dump($request->header('uid'));
-});
+//$router->get('/test', function () use ($router) {
+//	$id = $router->app->request->headers->get('uid');
+//	return User::find($id)->modules()->get();
+//	//return Module::find(1)->users()->get();
+//});
+
+$router->get('/test', 'UserController@modules');
 
 // catalog (excluding modules already installed by user)
 $router->get('/catalog', function () use ($router) {
@@ -91,10 +94,9 @@ $router->delete('/modules/delete/{slug}', function ($slug) use ($router) {
 	return new JsonResponse($result, $result ? 200 : 404);
 });
 
-$router->post('/user/create', function (Request $request) use ($router) {
-	// TODO: validate and create the user (this should probably be a POST request)
-	$data = $request->json()->all();
-	$data['id'] = $data['uid'];
+$router->post('/user/create', function () use ($router) {
+	$data = $router->app->request->json()->all();
+	$data['id'] = $data['uid']; // we're given "uid", db expects "id"
 	unset($data['uid']);
 	try {
 		$result = !!DB::table('users')->insert($data);
