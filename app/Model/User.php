@@ -17,9 +17,7 @@ class User extends Model {
 		'profile_img'
 	];
 
-	protected $hidden = [
-		'id'
-	];
+	protected $hidden = [];
 
 	public function modules() {
 		return $this->belongsToMany('App\Model\Module')->where('user_id', '=', $this->id);
