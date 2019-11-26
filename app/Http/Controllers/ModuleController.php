@@ -42,6 +42,12 @@ class ModuleController extends Controller
 
 		$module->users()->where('user_id', '=', $this->getId())->attach($this->getId());
 
+		$module->images = [
+			//"https://unsplash.it/256/256?random",
+			"https:/placebeard.it/256/256/notag?random=".$module->name.'/image1.jpg',
+			"https:/placebeard.it/256/256/notag?random=".$module->name.'/image2.jpg'
+		];
+
 		return $module;
 	}
 }
