@@ -41,5 +41,7 @@ class ModuleController extends Controller
 		$module = Module::where('name', '=', $slug)->first();
 
 		$module->users()->where('user_id', '=', $this->getId())->attach($this->getId());
+
+		return $module;
 	}
 }
