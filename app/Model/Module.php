@@ -5,6 +5,8 @@ namespace App\Model;
 use Illuminate\Database\Eloquent\Model;
 
 class Module extends Model {
+	public $timestamps = false;
+
 	protected $fillable = [
 		'name',
 		'display_name',
@@ -18,6 +20,6 @@ class Module extends Model {
 	];
 
 	public function users() {
-		return $this->belongsToMany('App\Model\User', 'modules_users', 'fk_module', 'fk_user');
+		return $this->belongsToMany('App\Model\User');
 	}
 }

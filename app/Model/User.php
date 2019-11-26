@@ -5,22 +5,23 @@ namespace App\Model;
 use Illuminate\Database\Eloquent\Model;
 
 class User extends Model {
+	public $incrementing = false;
+
+	public $timestamps = false;
+
 	protected $fillable = [
 		'id',
 		'name',
 		'email',
-		'address'
+		'address',
+		'profile_img'
 	];
 
 	protected $hidden = [
 		'id'
 	];
 
-	protected $with = [
-		'modules'
-	];
-
 	public function modules() {
-		return $this->belongsToMany('App\Model\Module', 'modules_users', 'fk_user', 'fk_module');
+		return $this->belongsToMany('App\Model\Module')->where('user_id', '=', $this->id);
 	}
 }

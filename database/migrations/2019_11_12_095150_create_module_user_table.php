@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateModuleResourcesTable extends Migration
+class CreateModuleUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,14 @@ class CreateModuleResourcesTable extends Migration
      */
     public function up()
     {
-        Schema::create('module_resources', function (Blueprint $table) {
-            $table->bigIncrements('id');
-			$table->string('path', 256);
-			$table->enum('type', ['file', 'screenshot']);
+        Schema::create('module_user', function (Blueprint $table) {
 			$table->bigInteger('module_id', false, true);
+			$table->string('user_id', 40);
 
 			$table->foreign('module_id')->references('id')->on('modules')->onDelete('cascade');
+			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
+			$table->primary(['module_id', 'user_id']);
         });
     }
 
@@ -30,6 +31,6 @@ class CreateModuleResourcesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('module_resources');
+        Schema::dropIfExists('module_user');
     }
 }

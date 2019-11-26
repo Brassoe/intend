@@ -20,5 +20,11 @@ class UsersTableSeeder extends Seeder
 			'address' => 'Testgade 10, Testby',
 			'profile_img' => 'https://drawcentral.com/wp-content/uploads/2012/01/gir_invader_zim-150x150.jpg'
 		]);
+		DB::table('users')->insert([
+			'id' => 'blah',
+			'name' => 'Philip',
+			'email' => '1067829@ucn.dk',
+			'address' => 'Philipgade 12'
+		]);
     }
 }

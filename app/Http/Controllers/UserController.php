@@ -8,8 +8,9 @@ use App\Model\User;
 class UserController extends Controller
 {
 	public function modules() {
-		$modules = User::find($this->getId())->modules()->where('fk_user', '=', $this->getId())->get();
+		$modules = User::find($this->getId())->modules()->get();
 		foreach($modules as &$module) {
+			unset($module['pivot']);
 			$module->images = [
 				//"https://unsplash.it/256/256?random",
 				"https:/placebeard.it/256/256/notag?random=".$module->name.'/image1.jpg',
@@ -17,5 +18,32 @@ class UserController extends Controller
 			];
 		}
 		return $modules;
+	}
+
+	public function userCreate(Request $request) {
+		$data = $request->json()->all();
+		$data['id'] = $data['uid'];
+		unset($data['uid']);
+		User::create($data);
+	}
+
+	public function userRead() {
+		return User::find($this->getId());
+	}
+
+	public function userUpdate(Request $request) {
+		$user = User::find($this->getId());
+
+		$data = $request->json()->all();
+		$data['id'] = $data['uid'];
+		unset($data['uid']);
+
+		$user->fill($data);
+
+		$user->save();
+	}
+
+	public function userDelete() {
+		User::destroy($this->getId());
 	}
 }

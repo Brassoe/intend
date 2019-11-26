@@ -14,6 +14,6 @@ class DatabaseSeeder extends Seeder
         $this->call('UsersTableSeeder');
         $this->call('ModulesTableSeeder');
         $this->call('ModuleResourcesTableSeeder');
-        $this->call('ModulesUsersTableSeeder');
+        $this->call('ModuleUserTableSeeder');
     }
 }
