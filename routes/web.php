@@ -24,7 +24,7 @@ $router->get('/catalog', 'ModuleController@catalog');
 
 $router->get('/catalog/install/{slug}', 'ModuleController@catalogInstall');
 
-$router->post('/user/create', 'UserController@userCreate');
+$router->post('/user', 'UserController@userCreate');
 
 $router->get('/user', 'UserController@userRead');
 
@@ -32,7 +32,7 @@ $router->put('/user', 'UserController@userUpdate');
 
 $router->delete('/user', 'UserController@userDelete');
 
-$router->delete('/modules/delete/{slug}', 'ModuleController@modulesDelete');
+$router->delete('/modules/{slug}', 'ModuleController@modulesDelete');
 
 $router->get('/modules', 'UserController@modules');
 
