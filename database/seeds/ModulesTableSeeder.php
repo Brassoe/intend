@@ -13,14 +13,14 @@ class ModulesTableSeeder extends Seeder
      */
     public function run()
     {
-		DB::table('modules')->insert([
-			'name' => 'shopping-list',
-			'display_name' => 'Indkøbsliste',
-			'description' => 'Holder styr på indkøbslisten',
-			'price' => 2000,
-			'category' => 'Planlægning',
-			'icon' => 'mdi-chemical-weapon'
-		]);
+		//DB::table('modules')->insert([
+		//	'name' => 'shopping-list',
+		//	'display_name' => 'Indkøbsliste',
+		//	'description' => 'Holder styr på indkøbslisten',
+		//	'price' => 2000,
+		//	'category' => 'Planlægning',
+		//	'icon' => 'mdi-chemical-weapon'
+		//]);
 		DB::table('modules')->insert([
 			'name' => 'meal-plan',
 			'display_name' => 'Madplan',

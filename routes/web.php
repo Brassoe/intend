@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use App\Module\CaseJuggler;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,26 +20,27 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->get('/test', 'UserController@modules');
-
-$router->get('/catalog', 'ModuleController@catalog');
-
-$router->get('/catalog/install/{slug}', 'ModuleController@catalogInstall');
-
 $router->post('/user', 'UserController@userCreate');
-
 $router->get('/user', 'UserController@userRead');
-
 $router->put('/user', 'UserController@userUpdate');
-
 $router->delete('/user', 'UserController@userDelete');
-
-$router->delete('/modules/{slug}', 'ModuleController@modulesDelete');
 
 $router->get('/modules', 'UserController@modules');
 
+$router->delete('/modules/{slug}', 'ModuleController@modulesDelete');
 $router->get('/modules/{slug}', 'ModuleController@modules');
+$router->get('/catalog', 'ModuleController@catalog');
+$router->get('/catalog/install/{slug}', 'ModuleController@catalogInstall');
 
-$router->get('/module/{slug}/{action}', function ($slug, $action) use ($router) {
-	// TODO: this is the part that modules should be able to register
-});
+$router->addRoute(
+	['HEAD','GET','POST','PUT','PATCH','DELETE','OPTIONS'],
+	'{catchall:[\w\/\-]+}',
+	function () use ($router) {
+		$segment = explode('/', $router->app->request->decodedPath(), 2)[0];
+		$segment = CaseJuggler::convert($segment)->to(CaseJuggler::START);
+		$controller = sprintf('App\Module\%1$s\Http\Controllers\%1$sController', $segment);
+		return (new $controller())->route($router);
+		// TODO catch exceptions
+	}
+);
+

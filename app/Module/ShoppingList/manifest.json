@@ -1,0 +1,40 @@
+{
+	"name": "shopping-list",
+	"label": "Shopping List",
+	"description": "Keeps a number of shopping lists",
+	"icon": "images/icon.png",
+	"images": [
+		"images/example1.png",
+		"images/example2.png"
+	],
+	"files": {
+		"server": [
+			"app/Http/Controllers/ShoppingListController.php",
+			"app/Http/Api/ShoppingListApi.php",
+			"app/Model/ShoppingList.php"
+		],
+		"client": {
+			"some/Vue/file.js",
+			"some/other/Vue/file.js"
+		}
+	},
+	"routes": [
+		{
+			"method": "GET",
+			"path": "/",
+			"description": "Returns a list of the user's shopping lists"
+		},
+		{
+			"method": "GET",
+			"path": "/lists/{id}",
+			"description": "Returns a list of items on the shopping list with the given ID"
+		}
+	],
+	"produces": [
+		"shopping-list"
+	],
+	"consumes": [
+		"some-other-type",
+		"yet-another-type"
+	]
+}
