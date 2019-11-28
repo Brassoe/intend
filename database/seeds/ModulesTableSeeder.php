@@ -18,6 +18,7 @@ class ModulesTableSeeder extends Seeder
 			'display_name' => 'Indkøbsliste',
 			'description' => 'Holder styr på indkøbslisten',
 			'price' => 2000,
+			'category' => 'Planlægning',
 			'icon' => 'mdi-chemical-weapon'
 		]);
 		DB::table('modules')->insert([
@@ -25,6 +26,7 @@ class ModulesTableSeeder extends Seeder
 			'display_name' => 'Madplan',
 			'description' => 'Holder styr på madplanen',
 			'price' => 4000,
+			'category' => 'Planlægning',
 			'icon' => 'mdi-food'
 		]);
 		DB::table('modules')->insert([
@@ -32,6 +34,7 @@ class ModulesTableSeeder extends Seeder
 			'display_name' => 'Køleskab',
 			'description' => 'Holder styr på køleskabet',
 			'price' => 6000,
+			'category' => 'Husholdning',
 			'icon' => 'mdi-fridge'
 		]);
 		DB::table('modules')->insert([
@@ -39,6 +42,7 @@ class ModulesTableSeeder extends Seeder
 			'display_name' => 'Tilbud',
 			'description' => 'Holder styr på tilbud',
 			'price' => 8000,
+			'category' => 'Indkøb',
 			'icon' => 'mdi-shopping'
 		]);
     }

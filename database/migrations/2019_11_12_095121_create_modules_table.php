@@ -19,6 +19,7 @@ class CreateModulesTable extends Migration
 			$table->string('display_name', 64);
 			$table->string('description', 256);
 			$table->integer('price');
+			$table->string('category', 64);
 			$table->string('icon', 128);
         });
     }
