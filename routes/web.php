@@ -33,8 +33,8 @@ $router->get('/modules/{slug}', 'ModuleController@modules');
 $router->get('/catalog', 'ModuleController@catalog');
 $router->get('/catalog/install/{slug}', 'ModuleController@catalogInstall');
 
-// at this point Lumen'service container doesn't seem to be fulle populated, so we're stepping around and getting some values using plain ol' PHP
-if(($uid = $_SERVER['HTTP_UID']) != null) {
+// at this point Lumen'service container doesn't seem to be fully populated, so we're stepping around and getting some values using plain ol' PHP
+if(isset($_SERVER['HTTP_UID']) && ($uid = $_SERVER['HTTP_UID']) != null) {
 	$modules = DB::table('modules')->join('module_user', 'module_id', '=', 'id')->where('user_id', '=', $uid)->pluck('name')->all();
 
 	foreach($modules as $module) {
