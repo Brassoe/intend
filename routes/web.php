@@ -5,6 +5,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Module\CaseJuggler;
 use App\Model\User;
+use Symfony\Component\Debug\Exception\FatalThrowableError;
 
 /*
 |--------------------------------------------------------------------------

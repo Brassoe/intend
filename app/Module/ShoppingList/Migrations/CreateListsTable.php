@@ -18,7 +18,7 @@ class CreateListsTable extends Migration
         Schema::create('shopping_lists', function (Blueprint $table) {
             $table->bigIncrements('id');
 			$table->string('name', 128);
-			$table->string('color', 24);
+			$table->string('color', 24)->nullable();
 			$table->string('user_id', 40);
 
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
