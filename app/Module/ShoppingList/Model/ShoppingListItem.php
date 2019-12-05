@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model\ShoppingList;
+namespace App\Module\ShoppingList\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,4 +12,8 @@ class ShoppingListItem extends Model {
 		'checked',
 		'list_id'
 	];
+
+	public function shoppingList() {
+		return $this->belongsTo(__NAMESPACE__.'\ShoppingList');
+	}
 }
