@@ -24,6 +24,7 @@ class ShoppingListController extends Controller implements ModuleInterface {
 			'name' => 'shopping-list',
 			'display_name' => 'Indkøbsliste',
 			'description' => 'Holder styr på indkøbslisten',
+			'color' => '#e4a853',
 			'price' => 2000,
 			'category' => 'Planlægning',
 			'icon' => 'mdi-chemical-weapon'

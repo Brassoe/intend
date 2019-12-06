@@ -20,6 +20,7 @@ class MealPlanController extends Controller implements ModuleInterface {
 			'name' => 'meal-plan',
 			'display_name' => 'Madplan',
 			'description' => 'Holder styr på madplanen',
+			'color' => '#e76884',
 			'price' => 4000,
 			'category' => 'Planlægning',
 			'icon' => 'mdi-food'
