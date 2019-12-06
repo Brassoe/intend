@@ -41,7 +41,7 @@ class ShoppingListController extends Controller implements ModuleInterface {
 			// lists
 			$router->post('/', '\\'.__NAMESPACE__.'\ShoppingListController@createList');
 			$router->get('/', '\\'.__NAMESPACE__.'\ShoppingListController@getAllLists');
-			$router->get('/icon', '\\'.__NAMESPACE__.'\ShoppingListController@icon');
+			$router->put('/{id}', '\\'.__NAMESPACE__.'\ShoppingListController@updateColor');
 			$router->delete('/{id}', '\\'.__NAMESPACE__.'\ShoppingListController@deleteList');
 
 			// items
@@ -62,6 +62,17 @@ class ShoppingListController extends Controller implements ModuleInterface {
 
 	public function getAllLists() {
 		return ShoppingList::with('user')->with('items')->where('user_id', '=', $this->getId())->get();
+	}
+
+	public function updateColor(Request $request, $id) {
+		$data = $request->json()->all();
+		$list = ShoppingList::with('user')->with('items')->where('user_id', '=', $this->getId())->where('id', '=', $id)->first();
+
+		if($list !== null && isset($data[0])) {
+			$list->color = $data[0];
+			$list->save();
+		} else
+			return response()->json(['message' => 'List not found'], 404);
 	}
 
 	public function deleteList($id) {
