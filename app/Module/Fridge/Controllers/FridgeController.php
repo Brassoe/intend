@@ -20,7 +20,7 @@ class FridgeController extends Controller implements ModuleInterface {
 			'name' => 'fridge',
 			'display_name' => 'Køleskab',
 			'description' => 'Holder styr på køleskabet',
-			'color' => '#76cab2',
+			'color' => '118, 202, 178',
 			'price' => 6000,
 			'category' => 'Husholdning',
 			'icon' => 'mdi-fridge'
