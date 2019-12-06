@@ -1,0 +1,9 @@
+{
+	"name": "meal-plan",
+	"label": "Meal Plan",
+	"description": "Keeps a number of meal plans",
+	"produces": [
+		"meal-plan"
+	],
+	"consumes": []
+}

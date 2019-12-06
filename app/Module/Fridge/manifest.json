@@ -1,0 +1,9 @@
+{
+	"name": "fridge",
+	"label": "Fridge",
+	"description": "Keeps track of what's in the fridge",
+	"produces": [],
+	"consumes": [
+		"shopping-list"
+	]
+}

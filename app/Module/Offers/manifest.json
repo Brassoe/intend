@@ -1,0 +1,11 @@
+{
+	"name": "offers",
+	"label": "Offers",
+	"description": "Pulls in offers from local stores",
+	"produces": [
+		"offer"
+	],
+	"consumes": [
+		"shopping-list"
+	]
+}
