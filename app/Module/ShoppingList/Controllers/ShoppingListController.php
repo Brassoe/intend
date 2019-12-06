@@ -76,14 +76,25 @@ class ShoppingListController extends Controller implements ModuleInterface {
 	}
 
 	public function flipCheck($id) {
-		$item = ShoppingListItem::with('shoppingList')->where('user_id', '=', $this->getId())->where('id', '=', $id)->first();
-		$item['checked'] ^= true;
-		$item->save();
-		// not sure if SQL will let us pull the xor boolean flipping trick (current value ^= true) (a cursory web search says no)
+		$item = ShoppingListItem::with('shoppingList')
+			->join('shopping_lists', 'shopping_list_id', '=', 'shopping_lists.id')
+			->where('user_id', '=', $this->getId())
+			->where('shopping_list_items.id', '=', $id)
+			->select(['shopping_list_items.*'])
+			->first();
+
+		if($item !== null) {
+			$item->checked ^= true;
+			$item->save();
+		}
 	}
 
 	public function deleteItem($id) {
-		return ShoppingListItem::with('shoppingList')->join('shopping_lists', 'shopping_list_id', '=', 'shopping_lists.id')->where('user_id', '=', $this->getId())->where('shopping_list_items.id', '=', $id)->delete();
+		return ShoppingListItem::with('shoppingList')
+			->join('shopping_lists', 'shopping_list_id', '=', 'shopping_lists.id')
+			->where('user_id', '=', $this->getId())
+			->where('shopping_list_items.id', '=', $id)
+			->delete();
 	}
 }
 
