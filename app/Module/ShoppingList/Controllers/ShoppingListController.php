@@ -83,7 +83,7 @@ class ShoppingListController extends Controller implements ModuleInterface {
 	}
 
 	public function deleteItem($id) {
-		return ShoppingListItem::with('shoppingList')->where('user_id', '=', $this->getId())->where('id', '=', $id)->delete();
+		return ShoppingListItem::with('shoppingList')->join('shopping_lists', 'shopping_list_id', '=', 'shopping_lists.id')->where('user_id', '=', $this->getId())->where('shopping_list_items.id', '=', $id)->delete();
 	}
 }
 
