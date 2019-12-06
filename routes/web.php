@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use App\Module\CaseJuggler;
+use App\Model\User;
+use Symfony\Component\Debug\Exception\FatalThrowableError;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,26 +22,37 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->get('/test', 'UserController@modules');
-
-$router->get('/catalog', 'ModuleController@catalog');
-
-$router->get('/catalog/install/{slug}', 'ModuleController@catalogInstall');
-
 $router->post('/user', 'UserController@userCreate');
-
 $router->get('/user', 'UserController@userRead');
-
 $router->put('/user', 'UserController@userUpdate');
-
 $router->delete('/user', 'UserController@userDelete');
-
-$router->delete('/modules/{slug}', 'ModuleController@modulesDelete');
 
 $router->get('/modules', 'UserController@modules');
 
+$router->delete('/modules/{slug}', 'ModuleController@modulesDelete');
 $router->get('/modules/{slug}', 'ModuleController@modules');
+$router->get('/catalog', 'ModuleController@catalog');
+$router->get('/catalog/install/{slug}', 'ModuleController@catalogInstall');
 
-$router->get('/module/{slug}/{action}', function ($slug, $action) use ($router) {
-	// TODO: this is the part that modules should be able to register
-});
+// at this point Lumen'service container doesn't seem to be fully populated, so we're stepping around and getting some values using plain ol' PHP
+if(isset($_SERVER['HTTP_UID']) && ($uid = $_SERVER['HTTP_UID']) != null) {
+	$modules = DB::table('modules')->join('module_user', 'module_id', '=', 'id')->where('user_id', '=', $uid)->pluck('name')->all();
+
+	foreach($modules as $module) {
+		$module = CaseJuggler::convert($module)->to(CaseJuggler::START);
+		$controller = sprintf('App\Module\%1$s\Controllers\%1$sController', $module);
+		(new $controller())->route($router);
+	}
+}
+
+//$router->addRoute(
+//	['HEAD','GET','POST','PUT','PATCH','DELETE','OPTIONS'],
+//	'{catchall:[\w\/\-]+}',
+//	function () use ($router) {
+//		$segment = explode('/', $router->app->request->decodedPath(), 2)[0];
+//		$segment = CaseJuggler::convert($segment)->to(CaseJuggler::START);
+//		$controller = sprintf('App\Module\%1$s\Controllers\%1$sController', $segment);
+//		return (new $controller())->route($router);
+//	}
+//);
+

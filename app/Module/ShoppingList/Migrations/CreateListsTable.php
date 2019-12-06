@@ -1,10 +1,12 @@
 <?php
 
+namespace App\Module\ShoppingList\Migrations;
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateModulesTable extends Migration
+class CreateListsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +15,13 @@ class CreateModulesTable extends Migration
      */
     public function up()
     {
-        Schema::create('modules', function (Blueprint $table) {
+        Schema::create('shopping_lists', function (Blueprint $table) {
             $table->bigIncrements('id');
-			$table->string('name', 64)->unique();
-			$table->string('display_name', 64);
-			$table->string('description', 256);
-			$table->integer('price');
-			$table->string('category', 64);
-			$table->string('icon', 128);
+			$table->string('name', 128);
+			$table->string('color', 24)->nullable();
+			$table->string('user_id', 40);
+
+			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -31,6 +32,7 @@ class CreateModulesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('modules');
+        Schema::dropIfExists('shopping_list_lists');
     }
 }
+

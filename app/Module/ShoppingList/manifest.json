@@ -1,0 +1,12 @@
+{
+	"name": "shopping-list",
+	"label": "Shopping List",
+	"description": "Keeps a number of shopping lists",
+	"produces": [
+		"shopping-list"
+	],
+	"consumes": [
+		"some-other-type",
+		"yet-another-type"
+	]
+}
