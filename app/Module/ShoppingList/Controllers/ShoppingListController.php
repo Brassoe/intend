@@ -68,8 +68,8 @@ class ShoppingListController extends Controller implements ModuleInterface {
 		$data = $request->json()->all();
 		$list = ShoppingList::with('user')->with('items')->where('user_id', '=', $this->getId())->where('id', '=', $id)->first();
 
-		if($list !== null && isset($data[0])) {
-			$list->color = $data[0];
+		if($list !== null && isset($data['color'])) {
+			$list->color = $data['color'];
 			$list->save();
 		} else
 			return response()->json(['message' => 'List not found'], 404);
