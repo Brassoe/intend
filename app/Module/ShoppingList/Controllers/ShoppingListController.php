@@ -72,7 +72,7 @@ class ShoppingListController extends Controller implements ModuleInterface {
 	public function createItem(Request $request) {
 		$data = $request->json()->all();
 
-		return response()->json([ShoppingListItem::insert($data)]);
+		return response()->json(ShoppingListItem::create($data));
 	}
 
 	public function flipCheck($id) {

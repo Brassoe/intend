@@ -10,7 +10,7 @@ class ShoppingListItem extends Model {
 	protected $fillable = [
 		'name',
 		'checked',
-		'list_id'
+		'shopping_list_id'
 	];
 
 	public function shoppingList() {
