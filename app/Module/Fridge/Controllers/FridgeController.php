@@ -13,6 +13,9 @@ use App\Model\Module;
 class FridgeController extends Controller implements ModuleInterface {
 	public function install() { // required by interface
 		// run migrations
+		if(!is_dir(__DIR__.'/../../../../public/modules/fridge'))
+			mkdir(__DIR__.'/../../../../public/modules/fridge', 0777, true);
+		copy(__DIR__.'/../icon.svg', __DIR__.'/../../../../public/modules/fridge/icon.svg');
 		Module::insert([
 			'name' => 'fridge',
 			'display_name' => 'Køleskab',

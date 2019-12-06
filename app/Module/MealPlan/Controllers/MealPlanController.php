@@ -13,6 +13,9 @@ use App\Model\Module;
 class MealPlanController extends Controller implements ModuleInterface {
 	public function install() { // required by interface
 		// run migrations
+		if(!is_dir(__DIR__.'/../../../../public/modules/meal-plan'))
+			mkdir(__DIR__.'/../../../../public/modules/meal-plan', 0777, true);
+		copy(__DIR__.'/../icon.svg', __DIR__.'/../../../../public/modules/meal-plan/icon.svg');
 		Module::insert([
 			'name' => 'meal-plan',
 			'display_name' => 'Madplan',
