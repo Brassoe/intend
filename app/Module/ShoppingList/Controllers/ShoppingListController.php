@@ -86,7 +86,8 @@ class ShoppingListController extends Controller implements ModuleInterface {
 		if($item !== null) {
 			$item->checked ^= true;
 			$item->save();
-		}
+		} else
+			return response()->json(['message' => 'Item not found'], 404);
 	}
 
 	public function deleteItem($id) {
