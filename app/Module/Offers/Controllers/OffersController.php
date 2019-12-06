@@ -20,6 +20,7 @@ class OffersController extends Controller implements ModuleInterface {
 			'name' => 'offers',
 			'display_name' => 'Tilbud',
 			'description' => 'Holder styr på tilbud',
+			'color' => '#9374b2',
 			'price' => 8000,
 			'category' => 'Planlægning',
 			'icon' => 'mdi-shopping'
