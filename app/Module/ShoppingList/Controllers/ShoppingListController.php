@@ -17,6 +17,9 @@ use App\Model\Module;
 class ShoppingListController extends Controller implements ModuleInterface {
 	public function install() { // required by interface
 		// run migrations
+		if(!is_dir(__DIR__.'/../../../../public/modules/shopping-list'))
+			mkdir(__DIR__.'/../../../../public/modules/shopping-list', 0777, true);
+		copy(__DIR__.'/../icon.svg', __DIR__.'/../../../../public/modules/shopping-list/icon.svg');
 		Module::insert([
 			'name' => 'shopping-list',
 			'display_name' => 'Indkøbsliste',
