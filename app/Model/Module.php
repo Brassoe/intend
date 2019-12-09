@@ -11,7 +11,9 @@ class Module extends Model {
 		'name',
 		'display_name',
 		'description',
+		'color',
 		'price',
+		'category',
 		'icon'
 	];
 
