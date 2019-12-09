@@ -1,0 +1,9 @@
+{
+	"name": "wishlist",
+	"label": "Wishlist",
+	"description": "Keeps track of wishlists",
+	"produces": [
+		"wishlist"
+	],
+	"consumes": []
+}
