@@ -115,6 +115,8 @@ class FridgeController extends Controller implements ModuleInterface {
 		if($item !== null) {
 			$item->fill($data);
 			$item->save();
+			$item['formatted_expiration_date'] = implode('-', array_reverse(explode('-', $item->expiration_date)));
+			return $item;
 		} else
 			return response()->json(['message' => 'Item not found'], 404);
 	}
