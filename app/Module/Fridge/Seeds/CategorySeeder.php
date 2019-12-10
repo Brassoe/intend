@@ -16,10 +16,37 @@ class CategorySeeder extends Seeder
     public function run()
     {
 		DB::table('fridge_categories')->insert([
-			'name' => 'Meat'
+			'name' => 'Drikkevarer'
 		]);
 		DB::table('fridge_categories')->insert([
-			'name' => 'Veggies'
+			'name' => 'Kød'
+		]);
+		DB::table('fridge_categories')->insert([
+			'name' => 'Fisk'
+		]);
+		DB::table('fridge_categories')->insert([
+			'name' => 'Mejeri'
+		]);
+		DB::table('fridge_categories')->insert([
+			'name' => 'Snacks'
+		]);
+		DB::table('fridge_categories')->insert([
+			'name' => 'Frugt'
+		]);
+		DB::table('fridge_categories')->insert([
+			'name' => 'Grøntsager'
+		]);
+		DB::table('fridge_categories')->insert([
+			'name' => 'Pålæg'
+		]);
+		DB::table('fridge_categories')->insert([
+			'name' => 'Brød'
+		]);
+		DB::table('fridge_categories')->insert([
+			'name' => 'Dressing'
+		]);
+		DB::table('fridge_categories')->insert([
+			'name' => 'Konserves'
 		]);
     }
 }
