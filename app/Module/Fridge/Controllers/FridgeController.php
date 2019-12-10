@@ -105,13 +105,13 @@ class FridgeController extends Controller implements ModuleInterface {
 		// last child moves to another parent object
 		$data = $request->json()->all();
 
-		$parent = FridgeItemParent::where('id', '=', $data['fridge_item_parent_id'])->where('user_id', '=', $this->getId())->first();
-		if($parent !== null) {
-			$parent->fill($data);
-			$parent->save();
-		}
+		//$parent = FridgeItemParent::where('id', '=', $data['fridge_item_parent_id'])->where('user_id', '=', $this->getId())->first();
+		//if($parent !== null) {
+		//	$parent->fill($data);
+		//	$parent->save();
+		//}
 
-		$item = FridgeItemChild::join('fridge_item_parents', 'fridge_item_children.fridge_item_parent_id', '=', 'fridge_item_parents.id')->where('fridge_item_children.id', '=', $id)->where('user_id', '=', $this->getId())->first();
+		$item = FridgeItemChild::join('fridge_item_parents', 'fridge_item_children.fridge_item_parent_id', '=', 'fridge_item_parents.id')->select('fridge_item_children.*')->where('fridge_item_children.id', '=', $id)->where('user_id', '=', $this->getId())->first();
 		if($item !== null) {
 			$item->fill($data);
 			$item->save();
