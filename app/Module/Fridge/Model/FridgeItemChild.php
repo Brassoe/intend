@@ -12,7 +12,7 @@ class FridgeItemChild extends Model {
 		'fridge_item_parent_id'
 	];
 
-	public function parentItem() {
+	public function fridgeItemParent() {
 		return $this->belongsTo(__NAMESPACE__.'\FridgeItemParent');
 	}
 }

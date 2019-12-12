@@ -85,36 +85,39 @@ class FridgeController extends Controller implements ModuleInterface {
 		 * database. TODO: requires the combination of the (name, user_id)
 		 * fields to be unique
 		 */
+
 		$data['user_id'] = $this->getId();
+
 		if(!isset($data['fridge_item_parent_id']) || $data['fridge_item_parent_id'] == null) {
 			$parent = FridgeItemParent::create($data);
 			$data['fridge_item_parent_id'] = $parent['id'];
 			$valid_parent = true;
 		}
+
 		if(!$valid_parent && FridgeItemParent::where('id', '=', $data['fridge_item_parent_id'])->where('user_id', '=', $this->getId())->first() === null)
 			return response()->json(['message' => 'Invalid parent item'], 404);
+
 		$item = FridgeItemChild::create($data);
 		$item['formatted_expiration_date'] = implode('-', array_reverse(explode('-', $item->expiration_date)));
+
 		return $item;
 	}
 
 	public function updateItem(Request $request, $id) {
-		// TODO: consider: should moves be allowed or disallowed
-		// if allowed, we need more logic to potentially remove
-		// parent objects, in case they become empty, when their
-		// last child moves to another parent object
 		$data = $request->json()->all();
 
-		//$parent = FridgeItemParent::where('id', '=', $data['fridge_item_parent_id'])->where('user_id', '=', $this->getId())->first();
-		//if($parent !== null) {
-		//	$parent->fill($data);
-		//	$parent->save();
-		//}
+		// disallow moving item to another parent (doesn't make sense for any of our use cases)
+		unset($data['fridge_item_parent_id']);
 
 		$item = FridgeItemChild::join('fridge_item_parents', 'fridge_item_children.fridge_item_parent_id', '=', 'fridge_item_parents.id')->select('fridge_item_children.*')->where('fridge_item_children.id', '=', $id)->where('user_id', '=', $this->getId())->first();
 		if($item !== null) {
+			// propagate data to item parent
+			$item->fridgeitemparent->fill($data);
+			$item->fridgeitemparent->save();
+			// update item child
 			$item->fill($data);
 			$item->save();
+
 			$item['formatted_expiration_date'] = implode('-', array_reverse(explode('-', $item->expiration_date)));
 			return $item;
 		} else
