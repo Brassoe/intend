@@ -41,17 +41,17 @@ class ShoppingListController extends Controller implements ModuleInterface {
 
 	public function route(Router $router) { // required by interface
 		// register routes
-		$router->group(['prefix' => '/shopping-list'], function () use ($router) {
+		$router->group(['prefix' => '/shopping-list', 'namespace' => __NAMESPACE__], function () use ($router) {
 			// lists
-			$router->post('/', '\\'.__NAMESPACE__.'\ShoppingListController@createList');
-			$router->get('/', '\\'.__NAMESPACE__.'\ShoppingListController@getAllLists');
-			$router->put('/{id}', '\\'.__NAMESPACE__.'\ShoppingListController@updateColor');
-			$router->delete('/{id}', '\\'.__NAMESPACE__.'\ShoppingListController@deleteList');
+			$router->post('/', 'ShoppingListController@createList');
+			$router->get('/', 'ShoppingListController@getAllLists');
+			$router->put('/{id}', 'ShoppingListController@updateColor');
+			$router->delete('/{id}', 'ShoppingListController@deleteList');
 
 			// items
-			$router->post('items', '\\'.__NAMESPACE__.'\ShoppingListController@createItem');
-			$router->put('items/{id}', '\\'.__NAMESPACE__.'\ShoppingListController@flipCheck');
-			$router->delete('items/{id}', '\\'.__NAMESPACE__.'\ShoppingListController@deleteItem');
+			$router->post('items', 'ShoppingListController@createItem');
+			$router->put('items/{id}', 'ShoppingListController@flipCheck');
+			$router->delete('items/{id}', 'ShoppingListController@deleteItem');
 		});
 	}
 
@@ -65,12 +65,12 @@ class ShoppingListController extends Controller implements ModuleInterface {
 	}
 
 	public function getAllLists() {
-		return ShoppingList::with('user')->with('items')->where('user_id', '=', $this->getId())->get();
+		return ShoppingList::with('user')->with('items')->where('user_id', $this->getId())->get();
 	}
 
 	public function updateColor(Request $request, $id) {
 		$data = $request->json()->all();
-		$list = ShoppingList::with('user')->with('items')->where('user_id', '=', $this->getId())->where('id', '=', $id)->first();
+		$list = ShoppingList::with('user')->with('items')->where('user_id', $this->getId())->where('id', $id)->first();
 
 		if($list !== null && isset($data['color'])) {
 			$list->color = $data['color'];
@@ -81,7 +81,7 @@ class ShoppingListController extends Controller implements ModuleInterface {
 
 	public function deleteList($id) {
 		// TODO: possibly return a "fail" response if no list with the given ID exists
-		return ShoppingList::where('user_id', '=', $this->getId())->where('id', '=', $id)->delete();
+		return ShoppingList::where('user_id', $this->getId())->where('id', $id)->delete();
 	}
 
 	public function createItem(Request $request) {
@@ -93,8 +93,8 @@ class ShoppingListController extends Controller implements ModuleInterface {
 	public function flipCheck($id) {
 		$item = ShoppingListItem::with('shoppingList')
 			->join('shopping_lists', 'shopping_list_id', '=', 'shopping_lists.id')
-			->where('user_id', '=', $this->getId())
-			->where('shopping_list_items.id', '=', $id)
+			->where('user_id', $this->getId())
+			->where('shopping_list_items.id', $id)
 			->select(['shopping_list_items.*'])
 			->first();
 
@@ -108,8 +108,8 @@ class ShoppingListController extends Controller implements ModuleInterface {
 	public function deleteItem($id) {
 		return ShoppingListItem::with('shoppingList')
 			->join('shopping_lists', 'shopping_list_id', '=', 'shopping_lists.id')
-			->where('user_id', '=', $this->getId())
-			->where('shopping_list_items.id', '=', $id)
+			->where('user_id', $this->getId())
+			->where('shopping_list_items.id', $id)
 			->delete();
 	}
 }

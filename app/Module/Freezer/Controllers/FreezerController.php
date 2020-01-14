@@ -33,7 +33,7 @@ class FreezerController extends Controller implements ModuleInterface {
 
 	public function route(Router $router) { // required by interface
 		// register routes
-		$router->group(['prefix' => '/freezer', 'namespace' => '\\'.__NAMESPACE__], function () use ($router) {
+		$router->group(['prefix' => '/freezer', 'namespace' => __NAMESPACE__], function () use ($router) {
 			$router->get('/', 'FreezerController@getItems');
 		});
 	}

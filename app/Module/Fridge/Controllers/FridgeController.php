@@ -47,7 +47,7 @@ class FridgeController extends Controller implements ModuleInterface {
 
 	public function route(Router $router) { // required by interface
 		// register routes
-		$router->group(['prefix' => '/fridge', 'namespace' => '\\'.__NAMESPACE__], function () use ($router) {
+		$router->group(['prefix' => '/fridge', 'namespace' => __NAMESPACE__], function () use ($router) {
 			$router->get('/', 'FridgeController@getItems');
 			$router->post('/', 'FridgeController@createItem');
 			$router->put('/{id}', 'FridgeController@updateItem');
@@ -57,7 +57,7 @@ class FridgeController extends Controller implements ModuleInterface {
 	}
 
 	public function getItems() {
-		$data = FridgeItemParent::with('children')->with('category')->where('user_id', '=', $this->getId())->get();
+		$data = FridgeItemParent::with('children')->with('category')->where('user_id', $this->getId())->get();
 		// post-process the data a little
 		foreach($data as $key => $item) {
 			// pull the category name up into the object itself, rather than having to bury into a sub-array to find it
@@ -94,7 +94,7 @@ class FridgeController extends Controller implements ModuleInterface {
 			$valid_parent = true;
 		}
 
-		if(!$valid_parent && FridgeItemParent::where('id', '=', $data['fridge_item_parent_id'])->where('user_id', '=', $this->getId())->first() === null)
+		if(!$valid_parent && FridgeItemParent::where('id', $data['fridge_item_parent_id'])->where('user_id', $this->getId())->first() === null)
 			return response()->json(['message' => 'Invalid parent item'], 404);
 
 		$item = FridgeItemChild::create($data);
@@ -109,7 +109,7 @@ class FridgeController extends Controller implements ModuleInterface {
 		// disallow moving item to another parent (doesn't make sense for any of our use cases)
 		unset($data['fridge_item_parent_id']);
 
-		$item = FridgeItemChild::join('fridge_item_parents', 'fridge_item_children.fridge_item_parent_id', '=', 'fridge_item_parents.id')->select('fridge_item_children.*')->where('fridge_item_children.id', '=', $id)->where('user_id', '=', $this->getId())->first();
+		$item = FridgeItemChild::join('fridge_item_parents', 'fridge_item_children.fridge_item_parent_id', '=', 'fridge_item_parents.id')->select('fridge_item_children.*')->where('fridge_item_children.id', $id)->where('user_id', $this->getId())->first();
 		if($item !== null) {
 			// propagate data to item parent
 			$item->fridgeitemparent->fill($data);
