@@ -12,10 +12,8 @@ use App\Model\Module;
 
 class FreezerController extends Controller implements ModuleInterface {
 	public function install() { // required by interface
-		// run migrations
-		if(!is_dir(__DIR__.'/../../../../public/modules/freezer'))
-			mkdir(__DIR__.'/../../../../public/modules/freezer', 0777, true);
-		copy(__DIR__.'/../icon.svg', __DIR__.'/../../../../public/modules/freezer/icon.svg');
+		parent::installIcon();
+
 		Module::insert([
 			'name' => 'freezer',
 			'display_name' => 'Fryser',
@@ -25,6 +23,8 @@ class FreezerController extends Controller implements ModuleInterface {
 			'category' => 'Husholdning',
 			'icon' => 'mdi-snowflake'
 		]);
+
+		// run migrations
 	}
 
 	public function uninstall() { // required by interface

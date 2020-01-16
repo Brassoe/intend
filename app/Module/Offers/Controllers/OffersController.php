@@ -12,10 +12,8 @@ use App\Model\Module;
 
 class OffersController extends Controller implements ModuleInterface {
 	public function install() { // required by interface
-		// run migrations
-		if(!is_dir(__DIR__.'/../../../../public/modules/offers'))
-			mkdir(__DIR__.'/../../../../public/modules/offers', 0777, true);
-		copy(__DIR__.'/../icon.svg', __DIR__.'/../../../../public/modules/offers/icon.svg');
+		parent::installIcon();
+
 		Module::insert([
 			'name' => 'offers',
 			'display_name' => 'Tilbud',
@@ -25,6 +23,8 @@ class OffersController extends Controller implements ModuleInterface {
 			'category' => 'Planlægning',
 			'icon' => 'mdi-shopping'
 		]);
+
+		// run migrations
 	}
 
 	public function uninstall() { // required by interface

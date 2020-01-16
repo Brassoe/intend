@@ -1,7 +1,9 @@
 {
 	"name": "meal-plan",
-	"label": "Meal Plan",
-	"description": "Keeps a number of meal plans",
+	"label": "Madplan",
+	"description": "Holder styr på madplanen",
+	"color": "231, 104, 132",
+	"category": "Planlægning",
 	"produces": [
 		"meal-plan"
 	],

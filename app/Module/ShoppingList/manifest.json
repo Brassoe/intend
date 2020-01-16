@@ -1,7 +1,9 @@
 {
 	"name": "shopping-list",
-	"label": "Shopping List",
-	"description": "Keeps a number of shopping lists",
+	"label": "Indkøbsliste",
+	"description": "Holder styr på indkøbslisten",
+	"color": "228, 168, 83",
+	"category": "Planlægning",
 	"produces": [
 		"shopping-list"
 	],

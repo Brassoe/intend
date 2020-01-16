@@ -12,10 +12,8 @@ use App\Model\Module;
 
 class WishlistController extends Controller implements ModuleInterface {
 	public function install() { // required by interface
-		// run migrations
-		if(!is_dir(__DIR__.'/../../../../public/modules/wishlist'))
-			mkdir(__DIR__.'/../../../../public/modules/wishlist', 0777, true);
-		copy(__DIR__.'/../icon.svg', __DIR__.'/../../../../public/modules/wishlist/icon.svg');
+		parent::installIcon();
+
 		Module::insert([
 			'name' => 'wishlist',
 			'display_name' => 'Ønskeliste',
@@ -25,6 +23,8 @@ class WishlistController extends Controller implements ModuleInterface {
 			'category' => 'Planlægning',
 			'icon' => 'mdi-gift'
 		]);
+
+		// run migrations
 	}
 
 	public function uninstall() { // required by interface

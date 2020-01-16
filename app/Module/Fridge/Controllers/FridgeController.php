@@ -4,6 +4,7 @@ namespace App\Module\Fridge\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Event;
 use Laravel\Lumen\Routing\Router;
 use App\Http\Controllers\Controller;
 use App\Module\ModuleInterface;
@@ -19,10 +20,8 @@ use App\Module\Fridge\Seeds\CategorySeeder;
 
 class FridgeController extends Controller implements ModuleInterface {
 	public function install() { // required by interface
-		// run migrations
-		if(!is_dir(__DIR__.'/../../../../public/modules/fridge'))
-			mkdir(__DIR__.'/../../../../public/modules/fridge', 0777, true);
-		copy(__DIR__.'/../icon.svg', __DIR__.'/../../../../public/modules/fridge/icon.svg');
+		parent::installIcon();
+
 		Module::insert([
 			'name' => 'fridge',
 			'display_name' => 'Køleskab',
@@ -32,6 +31,8 @@ class FridgeController extends Controller implements ModuleInterface {
 			'category' => 'Husholdning',
 			'icon' => 'mdi-fridge'
 		]);
+
+		// run migrations
 		(new CreateCategoriesTable())->up();
 		(new CreateItemParentTable())->up();
 		(new CreateItemChildTable())->up();
@@ -54,6 +55,34 @@ class FridgeController extends Controller implements ModuleInterface {
 			$router->delete('/{id}', 'FridgeController@deleteItem');
 			$router->get('/categories', 'FridgeController@getCategories');
 		});
+
+		//register event listener
+		Event::listen('repository.publish', sprintf('%s@handleEvent', __CLASS__));
+	}
+
+	public function handleEvent($data) {
+		/**
+		 * TODO: smarter logic.
+		 * We need some way of looking up an item in the fridge by name.
+		 * If found, we can simply add it to that item's category and fridge item parent.
+		 * If not found, I don't se a way for us to determine which category we should
+		 * add the item to. For now, a gross solution is to simply pick the first one.
+		 * Maybe we should seed a default category as a catch-all.
+		 */
+		if($this->consumes($data['type'])) {
+			// this is essentially FridgeCategory::getByName('[Uncategorized]') {{{
+			$category = 1; // FIXME: bad assumption
+			foreach($this->getCategories() as $item) {
+				if($item->name == '[Uncategorized]')
+					$category = $item->id;
+			}
+			// }}}
+			$this->createItemActual([
+				'name' => $data['data']['name'],
+				'category_id' => $category,
+				'fridge_item_parent_id' => null
+			]);
+		}
 	}
 
 	public function getItems() {
@@ -72,8 +101,6 @@ class FridgeController extends Controller implements ModuleInterface {
 	}
 
 	public function createItem(Request $request) {
-		$valid_parent = false;
-		$data = $request->json()->all();
 		/*
 		 * TODO: need to create FridgeItemParent if none exists
 		 * sub-par solution for now: if fridge_item_parent_id == null,
@@ -85,7 +112,11 @@ class FridgeController extends Controller implements ModuleInterface {
 		 * database. TODO: requires the combination of the (name, user_id)
 		 * fields to be unique
 		 */
+		return $this->createItemActual($request->json()->all());
+	}
 
+	private function createItemActual($data) {
+		$valid_parent = false;
 		$data['user_id'] = $this->getId();
 
 		if(!isset($data['fridge_item_parent_id']) || $data['fridge_item_parent_id'] == null) {
@@ -129,7 +160,7 @@ class FridgeController extends Controller implements ModuleInterface {
 		$item = FridgeItemChild::find($id);
 		$parent = FridgeItemParent::with('children')->find($item['fridge_item_parent_id']);
 		if(count($parent['children']) <= 1) {
-			$parent->delete(); // should cascade and delete children as well
+			$parent->delete(); // cascades, deleting the child as well
 		} else
 			$item->delete();
 	}
@@ -138,4 +169,3 @@ class FridgeController extends Controller implements ModuleInterface {
 		return FridgeCategory::all();
 	}
 }
-

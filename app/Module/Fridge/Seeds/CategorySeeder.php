@@ -16,6 +16,9 @@ class CategorySeeder extends Seeder
     public function run()
     {
 		DB::table('fridge_categories')->insert([
+			'name' => '[Uncategorized]'
+		]);
+		DB::table('fridge_categories')->insert([
 			'name' => 'Drikkevarer'
 		]);
 		DB::table('fridge_categories')->insert([

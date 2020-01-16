@@ -1,7 +1,9 @@
 {
 	"name": "freezer",
-	"label": "Freezer",
-	"description": "Keeps track of what's in the freezer",
+	"label": "Fryser",
+	"description": "Holder styr på fryseren",
+	"color": "41, 35, 92",
+	"categor": "Husholdning",
 	"produces": [],
 	"consumes": [
 		"shopping-list"

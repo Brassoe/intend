@@ -1,7 +1,9 @@
 {
 	"name": "fridge",
-	"label": "Fridge",
-	"description": "Keeps track of what's in the fridge",
+	"label": "Køleskab",
+	"description": "Holder styr på køleskabet",
+	"color": "118, 202, 178",
+	"category": "Husholdning",
 	"produces": [],
 	"consumes": [
 		"shopping-list"

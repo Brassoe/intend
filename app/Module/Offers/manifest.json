@@ -1,7 +1,9 @@
 {
 	"name": "offers",
-	"label": "Offers",
-	"description": "Pulls in offers from local stores",
+	"label": "Tilbud",
+	"description": "Holder styr på tilbud",
+	"color": "147, 116, 178",
+	"category": "Planlægning",
 	"produces": [
 		"offer"
 	],

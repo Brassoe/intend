@@ -31,5 +31,5 @@ if(isset($_SERVER['HTTP_UID']) && ($uid = $_SERVER['HTTP_UID']) != null) {
 	$router->get('/modules/{slug}', 'ModuleController@modules');
 	$router->get('/catalog', 'ModuleController@catalog');
 	$router->get('/catalog/install/{slug}', 'ModuleController@catalogInstall');
+    $router->post('modules/data', 'ModuleController@publishData');
 }
-

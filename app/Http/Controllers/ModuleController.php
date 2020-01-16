@@ -5,9 +5,17 @@ namespace App\Http\Controllers;
 use Laravel\Lumen\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
 use App\Model\Module;
+use App\Model\Repository;
 
 class ModuleController extends Controller
 {
+	private $repo;
+
+	public function __construct() {
+		parent::__construct();
+		$this->repo = app(Repository::class);
+	}
+
 	public function modules($slug) {
 		$module = Module::where('name', '=', $slug)->first();
 		$module->installed = !!count($module->users()->where('user_id', '=', $this->getId())->get());
@@ -38,9 +46,9 @@ class ModuleController extends Controller
 	}
 
 	public function catalogInstall($slug) {
-		$module = Module::where('name', '=', $slug)->first();
+		$module = Module::where('name', $slug)->first();
 
-		$module->users()->where('user_id', '=', $this->getId())->attach($this->getId());
+		$module->users()->where('user_id', $this->getId())->attach($this->getId());
 
 		$module->images = [
 			//"https://unsplash.it/256/256?random",
@@ -49,5 +57,11 @@ class ModuleController extends Controller
 		];
 
 		return $module;
+	}
+
+	public function publishData(Request $request) {
+		$data = $request->json()->all();
+		//  this might be where we could do any sort of data sanitization
+		$this->repo->publish($data);
 	}
 }

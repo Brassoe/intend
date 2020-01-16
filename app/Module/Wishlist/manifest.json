@@ -1,7 +1,9 @@
 {
 	"name": "wishlist",
-	"label": "Wishlist",
-	"description": "Keeps track of wishlists",
+	"label": "Ønskeliste",
+	"description": "Holder styr på ønskelister",
+	"color": "154, 194, 94",
+	"category": "Planlægning",
 	"produces": [
 		"wishlist"
 	],
